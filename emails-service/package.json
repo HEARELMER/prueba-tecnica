@@ -1,0 +1,28 @@
+{
+  "name": "ms-emails",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prestart": "npm run build",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpileOnly src/server.ts"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^21.3.2",
+    "amqplib": "^0.10.4",
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.11.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.20",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.10.8",
+    "@types/node": "^20.11.30",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
+  }
+}
