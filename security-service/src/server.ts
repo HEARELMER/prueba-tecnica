@@ -9,7 +9,7 @@ import { TokenEntity } from "./infrastructure/typeorm-token-entity";
 
 async function buildServer(): Promise<Server> {
   // Server encapsulates the HTTP listener and plugin system.
-  const server = new Server({ port: env.port, host: "0.0.0.0" });
+  const server = new Server({ port: env.port, host: "localhost" });
 
   // Initialize DB once during bootstrap to keep handlers lean.
   await appDataSource.initialize();

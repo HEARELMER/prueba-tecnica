@@ -13,7 +13,7 @@ async function buildServer(): Promise<{
   consumer: RabbitMqConsumer;
   connectionClose: () => Promise<void>;
 }> {
-  const server = new Server({ port: env.port, host: "0.0.0.0" });
+  const server = new Server({ port: env.port, host: "localhost" });
   registerRoutes(server);
 
   await appDataSource.initialize();

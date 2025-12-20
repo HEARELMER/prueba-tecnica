@@ -12,7 +12,7 @@ import { RegisterClient } from "./application/register-client";
 import { registerRoutes } from "./infrastructure/routes";
 const Redis = require("ioredis");
 async function buildServer(): Promise<Server> {
-  const server = new Server({ port: env.port, host: "0.0.0.0" });
+  const server = new Server({ port: env.port, host: "localhost" });
 
   await appDataSource.initialize();
   const repo = new TypeOrmClientRepository(
