@@ -8,10 +8,8 @@ export const env = {
   db: {
     host: process.env.DB_HOST || "localhost",
     port: Number(process.env.DB_PORT || 3306),
-    username: process.env.DB_USERNAME || "root",
-    // Allow DB_PASS for backward compatibility with compose vars.
-    password: process.env.DB_PASSWORD || process.env.DB_PASS || "root",
-    // Align default with the database created in mysql-initi/init.sql
+    username: process.env.DB_USERNAME || "root", 
+    password: process.env.DB_PASSWORD || process.env.DB_PASS || "root", 
     database: process.env.DB_NAME || "db_clients",
   },
   securityBaseUrl: process.env.SECURITY_BASE_URL || "http://localhost:3001",
