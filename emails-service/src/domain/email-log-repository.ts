@@ -1,15 +1,5 @@
+import { EmailLog, EmailLogCreate } from "./email-log";
+
 export interface EmailLogRepository {
-  save(entry: {
-    clientId: string;
-    email: string;
-    status: "queued" | "sent" | "failed";
-    payload: string;
-  }): Promise<{
-    id: string;
-    clientId: string;
-    email: string;
-    status: "queued" | "sent" | "failed";
-    payload: string;
-    createdAt: Date;
-  }>;
+  save(entry: EmailLogCreate): Promise<EmailLog>;
 }

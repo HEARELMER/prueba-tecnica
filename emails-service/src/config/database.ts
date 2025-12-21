@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { env } from "./env";
-import { EmailLogEntity } from "../infrastructure/typeorm-email-log-entity";
+import { EmailLogEntity } from "../infrastructure/adapters/typeorm/email-log.entity";
 
 export const appDataSource = new DataSource({
   type: "mysql",

@@ -1,17 +1,17 @@
 import { Server } from "@hapi/hapi";
-import { Channel, connect as connectRabbit } from "amqplib";
 import { env } from "./config/env";
 import { appDataSource } from "./config/database";
-import { TypeOrmEmailLogRepository } from "./infrastructure/typeorm-email-log-repository";
-import { EmailLogEntity } from "./infrastructure/typeorm-email-log-entity";
 import { ProcessEmailRequest } from "./application/process-email-request";
-import { RabbitMqConsumer } from "./infrastructure/rabbitmq-consumer";
-import { registerRoutes } from "./infrastructure/routes";
+import {
+  EmailLogEntity,
+  RabbitMqConsumer,
+  TypeOrmEmailLogRepository,
+  registerRoutes,
+} from "./infrastructure/export";
 
 async function buildServer(): Promise<{
   server: Server;
   consumer: RabbitMqConsumer;
-  connectionClose: () => Promise<void>;
 }> {
   const server = new Server({ port: env.port, host: "localhost" });
   registerRoutes(server);
@@ -22,26 +22,18 @@ async function buildServer(): Promise<{
   );
   const processEmail = new ProcessEmailRequest(repo);
 
-  const connection = await connectRabbit(env.rabbitmq.url);
-  const channel: Channel = await connection.createChannel();
   const consumer = new RabbitMqConsumer(
-    channel,
+    env.rabbitmq.url,
     env.rabbitmq.emailQueue,
     processEmail
   );
 
-  const connectionClose = async () => {
-    await appDataSource.destroy();
-    await channel.close();
-    await connection.close();
-  };
-
-  return { server, consumer, connectionClose };
+  return { server, consumer };
 }
 
 async function start() {
   try {
-    const { server, consumer, connectionClose } = await buildServer();
+    const { server, consumer } = await buildServer();
 
     // Start background consumer before exposing HTTP.
     await consumer.start();
@@ -52,7 +44,8 @@ async function start() {
     });
 
     server.ext("onPostStop", async () => {
-      await connectionClose();
+      await consumer.stop();
+      await appDataSource.destroy();
     });
 
     await server.start();

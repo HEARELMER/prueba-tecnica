@@ -3,17 +3,27 @@ import path from "path";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
+const rabbitHost = process.env.RABBIT_HOST || "localhost";
+const rabbitPort = Number(process.env.RABBIT_PORT || 5672);
+const rabbitUser = process.env.RABBIT_USER || "guest";
+const rabbitPass = process.env.RABBIT_PASS || "guest";
+
+// Build URL from RABBIT_HOST unless an explicit URL is provided.
+const rabbitUrl =
+  process.env.RABBITMQ_URL ||
+  `amqp://${rabbitUser}:${rabbitPass}@${rabbitHost}:${rabbitPort}`;
+
 export const env = {
-  port: Number(process.env.PORT || 3000),
+  port: Number(process.env.PORT || 3002),
   db: {
     host: process.env.DB_HOST || "localhost",
     port: Number(process.env.DB_PORT || 3306),
-    username: process.env.DB_USERNAME || "root",
-    password: process.env.DB_PASSWORD || process.env.DB_PASS || "root",
+    username: process.env.DB_USERNAME || process.env.DB_USER || "root",
+    password: process.env.DB_PASS || process.env.DB_PASSWORD || "root",
     database: process.env.DB_NAME || "db_emails",
   },
   rabbitmq: {
-    url: process.env.RABBITMQ_URL || "amqp://guest:guest@localhost:5672",
-    emailQueue: process.env.EMAIL_QUEUE || "emails",
+    url: rabbitUrl,
+    emailQueue: process.env.EMAIL_QUEUE || "client_registered",
   },
 };
