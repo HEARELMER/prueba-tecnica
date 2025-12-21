@@ -11,4 +11,21 @@ export class TypeOrmGlobalParameterRepository
     const record = await this.repo.findOne({ where: { paramKey } });
     return record?.paramValue ?? null;
   }
+
+  async findAll(): Promise<{ key: string; value: string }[]> {
+    const records = await this.repo.find();
+    return records.map((r) => ({ key: r.paramKey, value: r.paramValue }));
+  }
+
+  async upsert(paramKey: string, paramValue: string): Promise<void> {
+    const existing = await this.repo.findOne({ where: { paramKey } });
+    if (existing) {
+      existing.paramValue = paramValue;
+      await this.repo.save(existing);
+      return;
+    }
+
+    const entity = this.repo.create({ paramKey, paramValue });
+    await this.repo.save(entity);
+  }
 }

@@ -1,6 +1,6 @@
 import { Server } from "@hapi/hapi";
 import axios from "axios";
-import { connect as connectRabbit, Connection, Channel } from "amqplib";
+import { connect as connectRabbit, ChannelModel, Channel } from "amqplib";
 import Redis from "ioredis";
 import { env } from "./config/env";
 import { appDataSource } from "./config/database";
@@ -34,9 +34,13 @@ async function buildServer(): Promise<Server> {
   const securityGateway = new HttpSecurityGateway(securityClient);
 
   const redis = new Redis({ host: env.redis.host, port: env.redis.port });
+
+  // Ensure parameters exist and are loaded into Redis at startup.
+  await bootstrapGlobalParameters(globalParamRepo, redis);
+
   const toggleReader = new RedisEmailToggleReader(redis, globalParamRepo);
 
-  const rabbitConnection: Connection = await connectRabbit(env.rabbitmq.url);
+  const rabbitConnection: ChannelModel = await connectRabbit(env.rabbitmq.url);
   const rabbitChannel: Channel = await rabbitConnection.createChannel();
   const publisher = new RabbitMqEmailPublisher(
     rabbitChannel,
@@ -66,6 +70,21 @@ async function buildServer(): Promise<Server> {
   });
 
   return server;
+}
+
+async function bootstrapGlobalParameters(
+  globalParamRepo: TypeOrmGlobalParameterRepository,
+  redis: Redis
+): Promise<void> {
+  // Default toggle to allow welcome emails unless explicitly disabled.
+  await globalParamRepo.upsert("ENABLE_EMAIL", "true");
+
+  const params = await globalParamRepo.findAll();
+  if (params.length === 0) return;
+
+  const pipeline = redis.pipeline();
+  params.forEach((p) => pipeline.set(p.key, p.value));
+  await pipeline.exec();
 }
 
 async function start() {

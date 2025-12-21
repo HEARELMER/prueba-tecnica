@@ -23,7 +23,14 @@ export class ApiRoutes {
       method: "POST",
       path: "/validate",
       handler: async (request: Request, h: ResponseToolkit) => {
-        const { code } = (request.payload as { code?: unknown }) || {};
+        const payload = request.payload as {
+          code?: unknown;
+          token_code?: unknown;
+        };
+        const code =
+          typeof payload?.token_code === "string"
+            ? payload.token_code
+            : payload?.code;
 
         if (typeof code !== "string" || !/^[0-9]{8}$/.test(code)) {
           return h

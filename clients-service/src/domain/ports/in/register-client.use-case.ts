@@ -1,5 +1,4 @@
-import { Client } from "../../client";
-import { TipoDocumento } from "../../client";
+import { Client, TipoDocumento } from "../../entities/client";
 
 export interface RegisterClientUseCase {
   execute(input: {
