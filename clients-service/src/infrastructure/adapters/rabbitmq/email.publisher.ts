@@ -15,6 +15,12 @@ export class RabbitMqEmailPublisher implements EmailPublisherPort {
     nroDocumento: string;
     fechaNacimiento: string;
     bonoBienvenida: boolean;
+    departamento: string;
+    provincia: string;
+    distrito: string;
+    codigoCelular: string;
+    numeroCelular: string;
+    genero: string;
     createdAt: string;
   }): Promise<void> {
     await this.channel.assertQueue(this.queueName, { durable: true });

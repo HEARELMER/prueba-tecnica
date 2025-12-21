@@ -15,6 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
+import { toast } from 'ngx-sonner';
 
 import { ClientsSdkService } from '@/sdk/clients/clients-sdk.service';
 import { SecuritySdkService } from '@/sdk/security/security-sdk.service';
@@ -31,6 +32,8 @@ interface BonusOption {
   subtitle: string;
   accent: string;
 }
+
+type Gender = 'M' | 'F' | 'O';
 
 @Component({
   selector: 'app-registration-page',
@@ -96,6 +99,20 @@ export class RegistrationPageComponent implements OnInit {
 
   readonly days = Array.from({ length: 31 }, (_, index) => index + 1);
   readonly years = this.buildYears();
+  readonly departments = ['Lima', 'Cusco', 'Arequipa', 'Piura', 'Junín'];
+  readonly provinces = ['Lima', 'Urubamba', 'Camaná', 'Paita', 'Huancayo'];
+  readonly districts = [
+    'Miraflores',
+    'San Isidro',
+    'La Molina',
+    'Barranco',
+    'Comas',
+  ];
+  readonly genders: { value: Gender; label: string }[] = [
+    { value: 'M', label: 'Masculino' },
+    { value: 'F', label: 'Femenino' },
+    { value: 'O', label: 'Otro' },
+  ];
   readonly inputClasses =
     'w-full rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-base text-white placeholder:text-slate-400 focus:border-emerald-400 focus:ring-2 focus:ring-emerald-500/40 transition';
 
@@ -129,6 +146,29 @@ export class RegistrationPageComponent implements OnInit {
       surnames: new FormControl('', {
         nonNullable: true,
         validators: [Validators.required, Validators.maxLength(100)],
+      }),
+      department: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      province: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      district: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      phoneCode: new FormControl('+51', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      phoneNumber: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.pattern(/^\d{6,12}$/)],
+      }),
+      gender: new FormControl<Gender | null>(null, {
+        validators: [Validators.required],
       }),
       birthYear: new FormControl<number | null>(null, {
         validators: [Validators.required],
@@ -195,6 +235,12 @@ export class RegistrationPageComponent implements OnInit {
       fecha_nacimiento: birthDateIso,
       bono_bienvenida: formValue.bonus !== 'none',
       token_code: formValue.tokenCode.trim(),
+      departamento: formValue.department.trim(),
+      provincia: formValue.province.trim(),
+      distrito: formValue.district.trim(),
+      codigo_celular: formValue.phoneCode.trim(),
+      numero_celular: formValue.phoneNumber.trim(),
+      genero: formValue.gender ?? 'O',
     };
 
     this.submitting = true;
@@ -206,12 +252,19 @@ export class RegistrationPageComponent implements OnInit {
       );
       this.statusTone = 'success';
       this.statusMessage = `Cliente ${response.nombres} registrado`; // backend returns nombres & apellidos
+      toast.success('Cliente registrado correctamente');
       this.form.reset({
         bonus: formValue.bonus,
         documentType: 'DNI',
         documentNumber: '',
         names: '',
         surnames: '',
+        department: '',
+        province: '',
+        district: '',
+        phoneCode: '+51',
+        phoneNumber: '',
+        gender: null,
         birthYear: null,
         birthMonth: null,
         birthDay: null,
@@ -222,6 +275,7 @@ export class RegistrationPageComponent implements OnInit {
         (error as Error)?.message ?? 'No se pudo completar el registro';
       this.statusTone = 'error';
       this.statusMessage = message;
+      toast.error(message);
     } finally {
       this.submitting = false;
     }

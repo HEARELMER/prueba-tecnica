@@ -7,6 +7,12 @@ export interface EmailPublisherPort {
     nroDocumento: string;
     fechaNacimiento: string;
     bonoBienvenida: boolean;
+    departamento: string;
+    provincia: string;
+    distrito: string;
+    codigoCelular: string;
+    numeroCelular: string;
+    genero: string;
     createdAt: string;
   }): Promise<void>;
 }

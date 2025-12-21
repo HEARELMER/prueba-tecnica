@@ -4,8 +4,10 @@ import {
   IsEnum,
   IsNotEmpty,
   IsString,
+  Length,
+  Matches,
 } from "class-validator";
-import { TipoDocumento } from "../../../../domain/entities/client";
+import { Genero, TipoDocumento } from "../../../../domain/entities/client";
 
 export class RegisterClientDto {
   @IsString()
@@ -28,6 +30,31 @@ export class RegisterClientDto {
 
   @IsBoolean()
   bono_bienvenida!: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  departamento!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  provincia!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  distrito!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  codigo_celular!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Length(6, 20)
+  @Matches(/^[0-9]+$/)
+  numero_celular!: string;
+
+  @IsEnum(Genero)
+  genero!: Genero;
 
   @IsString()
   @IsNotEmpty()

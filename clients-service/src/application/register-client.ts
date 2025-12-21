@@ -1,5 +1,4 @@
- 
-import { Client, TipoDocumento } from "../domain/entities/client";
+import { Client, Genero, TipoDocumento } from "../domain/entities/client";
 import { RegisterClientUseCase } from "../domain/ports/in/register-client.use-case";
 import { ClientRepositoryPort } from "../domain/ports/out/client-repository.port";
 import { EmailPublisherPort } from "../domain/ports/out/email-publisher.port";
@@ -13,6 +12,12 @@ interface Input {
   nro_documento: string;
   fecha_nacimiento: string;
   bono_bienvenida: boolean;
+  departamento: string;
+  provincia: string;
+  distrito: string;
+  codigo_celular: string;
+  numero_celular: string;
+  genero: Genero;
   token_code: string;
 }
 
@@ -37,6 +42,12 @@ export class RegisterClient implements RegisterClientUseCase {
       nroDocumento: input.nro_documento,
       fechaNacimiento: new Date(input.fecha_nacimiento),
       bonoBienvenida: input.bono_bienvenida,
+      departamento: input.departamento,
+      provincia: input.provincia,
+      distrito: input.distrito,
+      codigoCelular: input.codigo_celular,
+      numeroCelular: input.numero_celular,
+      genero: input.genero,
     });
 
     const saved = await this.repository.save(client);
@@ -52,6 +63,12 @@ export class RegisterClient implements RegisterClientUseCase {
         nroDocumento: data.nroDocumento,
         fechaNacimiento: data.fechaNacimiento.toISOString(),
         bonoBienvenida: data.bonoBienvenida,
+        departamento: data.departamento,
+        provincia: data.provincia,
+        distrito: data.distrito,
+        codigoCelular: data.codigoCelular,
+        numeroCelular: data.numeroCelular,
+        genero: data.genero,
         createdAt: data.createdAt.toISOString(),
       });
     }

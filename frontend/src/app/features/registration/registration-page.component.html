@@ -45,111 +45,44 @@
     </header>
 
     <div class="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-      <section class="space-y-6">
-        <div
-          class="rounded-2xl border border-white/5 bg-white/5/20 p-6 backdrop-blur"
-        >
-          <div class="flex items-center gap-2 text-emerald-300">
-            <z-icon zType="check" />
-            <span class="text-sm font-semibold">Flujo guiado</span>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-[0.3em] text-emerald-300">
+              Paso 1
+            </p>
+            <h3 class="text-lg font-semibold text-white">Bono de bienvenida</h3>
           </div>
-          <p class="mt-3 text-lg font-semibold text-white">
-            Elige tu bono, genera tu token y envía el registro.
-          </p>
-          <p class="mt-2 text-slate-300">
-            Inspirado en el anexo de referencia: panel oscuro, pasos claros y
-            validaciones para mayores de edad. El token de 8 dígitos se solicita
-            al microservicio de seguridad y puedes editarlo para pruebas.
-          </p>
         </div>
-
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div
-            class="rounded-xl border border-white/10 bg-white/5 p-4 shadow-lg shadow-emerald-500/5"
+        <div class="grid gap-3 sm:grid-cols-3">
+          @for (bonus of bonusOptions; track bonus.id) {
+          <label
+            class="group relative block cursor-pointer rounded-xl border border-white/10 bg-white/5 px-4 py-4 transition hover:-translate-y-[1px] hover:border-emerald-400/60 hover:shadow-lg hover:shadow-emerald-500/10"
+            [class.outline-outline-emerald-500]="form.value.bonus === bonus.id"
           >
-            <div
-              class="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
-            >
-              <span>Paso 1</span>
-              <z-badge
-                zType="secondary"
-                zShape="pill"
-                class="bg-emerald-500/15 text-emerald-200"
+            <input
+              class="sr-only"
+              type="radio"
+              [value]="bonus.id"
+              formControlName="bonus"
+            />
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold text-white">
+                  {{ bonus.title }}
+                </p>
+                <p class="text-xs text-slate-300">{{ bonus.subtitle }}</p>
+              </div>
+              <div
+                class="rounded-md bg-gradient-to-br {{ bonus.accent }} px-2 py-1 text-[11px] font-semibold uppercase tracking-widest text-slate-900"
               >
-                Token
-              </z-badge>
+                Bono
+              </div>
             </div>
-            <p class="mt-2 text-lg font-semibold text-white">
-              Solicita y prueba tu token
-            </p>
-            <p class="text-sm text-slate-300">
-              Obtenemos un código único de 8 dígitos desde el microservicio de
-              seguridad.
-            </p>
-          </div>
-          <div
-            class="rounded-xl border border-white/10 bg-white/5 p-4 shadow-lg shadow-emerald-500/5"
-          >
-            <div
-              class="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.2em] text-slate-400"
-            >
-              <span>Paso 2</span>
-              <z-badge
-                zType="secondary"
-                zShape="pill"
-                class="bg-cyan-500/15 text-cyan-100"
-              >
-                Registro
-              </z-badge>
-            </div>
-            <p class="mt-2 text-lg font-semibold text-white">
-              Completa los datos
-            </p>
-            <p class="text-sm text-slate-300">
-              Enviamos la información al microservicio de clientes validando
-              edad y formato.
-            </p>
-          </div>
+          </label>
+          }
         </div>
-
-        <div
-          class="rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-emerald-900/50 p-6 shadow-2xl shadow-emerald-500/10 backdrop-blur"
-        >
-          <div class="flex items-center gap-3">
-            <div
-              class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-200"
-            >
-              <z-icon zType="info" />
-            </div>
-            <div>
-              <p class="text-sm font-semibold text-white">SDK frontend</p>
-              <p class="text-sm text-slate-300">
-                Las llamadas a seguridad y clientes pasan por un pequeño SDK en
-                /src/app/sdk.
-              </p>
-            </div>
-          </div>
-          <ul class="mt-4 grid gap-3 text-sm text-slate-200 sm:grid-cols-2">
-            <li class="flex items-start gap-2">
-              <z-icon zType="shield" class="mt-0.5 text-emerald-300" />
-              Token: POST /generate y opción de validación.
-            </li>
-            <li class="flex items-start gap-2">
-              <z-icon zType="users" class="mt-0.5 text-emerald-300" />
-              Registro: POST /clients con mapeo de campos requeridos.
-            </li>
-            <li class="flex items-start gap-2">
-              <z-icon zType="settings" class="mt-0.5 text-emerald-300" />
-              Config: endpoints en environments para localhost (3001/3002).
-            </li>
-            <li class="flex items-start gap-2">
-              <z-icon zType="loader-circle" class="mt-0.5 text-emerald-300" />
-              Estados: loading, éxito y error visibles.
-            </li>
-          </ul>
-        </div>
-      </section>
-
+      </div>
       <section
         class="rounded-2xl border border-white/10 bg-slate-900/80 shadow-2xl shadow-emerald-500/10 backdrop-blur"
       >
@@ -202,61 +135,11 @@
                 autocomplete="one-time-code"
                 inputmode="numeric"
                 maxlength="8"
-                class="{{ inputClasses }}"
+                [class]="inputClasses"
                 placeholder="00000000"
               />
             </z-form-control>
           </z-form-field>
-
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-xs uppercase tracking-[0.3em] text-emerald-300">
-                  Paso 1
-                </p>
-                <h3 class="text-lg font-semibold text-white">
-                  Bono de bienvenida
-                </h3>
-              </div>
-              <z-badge
-                zType="secondary"
-                zShape="pill"
-                class="bg-white/10 text-white"
-                >Opcional</z-badge
-              >
-            </div>
-            <div class="grid gap-3 sm:grid-cols-3">
-              <label
-                *ngFor="let bonus of bonusOptions"
-                class="group relative block cursor-pointer rounded-xl border border-white/10 bg-white/5 px-4 py-4 transition hover:-translate-y-[1px] hover:border-emerald-400/60 hover:shadow-lg hover:shadow-emerald-500/10"
-                [class.outline-outline-emerald-500]="
-                  form.value.bonus === bonus.id
-                "
-              >
-                <input
-                  class="sr-only"
-                  type="radio"
-                  [value]="bonus.id"
-                  formControlName="bonus"
-                />
-                <div class="flex items-start justify-between gap-3">
-                  <div>
-                    <p class="text-sm font-semibold text-white">
-                      {{ bonus.title }}
-                    </p>
-                    <p class="text-xs text-slate-300">{{ bonus.subtitle }}</p>
-                  </div>
-                  <div
-                    class="rounded-md bg-gradient-to-br {{
-                      bonus.accent
-                    }} px-2 py-1 text-[11px] font-semibold uppercase tracking-widest text-slate-900"
-                  >
-                    Bono
-                  </div>
-                </div>
-              </label>
-            </div>
-          </div>
 
           <div class="grid gap-4 sm:grid-cols-2">
             <z-form-field>
@@ -267,9 +150,7 @@
                   zPlaceholder="Tipo de documento"
                 >
                   @for (doc of documentTypes; track doc.value) {
-                  <z-select-item [zValue]="doc.value">{{
-                    doc.label
-                  }}</z-select-item>
+                  <z-select-item [zValue]="doc.value">{{ doc.label }}</z-select-item>
                   }
                 </z-select>
               </z-form-control>
@@ -287,7 +168,7 @@
                 <input
                   formControlName="documentNumber"
                   autocomplete="off"
-                  class="{{ inputClasses }}"
+                  [class]="inputClasses"
                   placeholder="Ingresa tu número"
                 />
               </z-form-control>
@@ -306,7 +187,7 @@
               >
                 <input
                   formControlName="names"
-                  class="{{ inputClasses }}"
+                  [class]="inputClasses"
                   placeholder="Como figura en el documento"
                 />
               </z-form-control>
@@ -323,9 +204,76 @@
               >
                 <input
                   formControlName="surnames"
-                  class="{{ inputClasses }}"
+                  [class]="inputClasses"
                   placeholder="Como figura en el documento"
                 />
+              </z-form-control>
+            </z-form-field>
+          </div>
+
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-white">Lugar de residencia</h3>
+              <span class="text-xs text-slate-400">Departamento / Provincia / Distrito</span>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-3">
+              <z-select formControlName="department" zPlaceholder="Departamento">
+                @for (dep of departments; track dep) {
+                <z-select-item [zValue]="dep">{{ dep }}</z-select-item>
+                }
+              </z-select>
+              <z-select formControlName="province" zPlaceholder="Provincia">
+                @for (prov of provinces; track prov) {
+                <z-select-item [zValue]="prov">{{ prov }}</z-select-item>
+                }
+              </z-select>
+              <z-select formControlName="district" zPlaceholder="Distrito">
+                @for (dist of districts; track dist) {
+                <z-select-item [zValue]="dist">{{ dist }}</z-select-item>
+                }
+              </z-select>
+            </div>
+          </div>
+
+          <div class="grid gap-3 sm:grid-cols-[1fr_2fr]">
+            <z-form-field>
+              <z-form-label zRequired>Código</z-form-label>
+              <z-form-control>
+                <input
+                  formControlName="phoneCode"
+                  [class]="inputClasses"
+                  readonly
+                />
+              </z-form-control>
+            </z-form-field>
+            <z-form-field>
+              <z-form-label zRequired>Número de celular</z-form-label>
+              <z-form-control
+                [errorMessage]="
+                  getControl('phoneNumber').touched && getControl('phoneNumber').invalid
+                    ? 'Ingresa un número válido'
+                    : ''
+                "
+              >
+                <input
+                  formControlName="phoneNumber"
+                  [class]="inputClasses"
+                  inputmode="tel"
+                  placeholder="Ingresa tu número"
+                />
+              </z-form-control>
+            </z-form-field>
+          </div>
+
+          <div class="space-y-2">
+            <z-form-field>
+              <z-form-label zRequired>Género</z-form-label>
+              <z-form-control>
+                <z-select formControlName="gender" zPlaceholder="Selecciona un género">
+                  @for (gender of genders; track gender.value) {
+                  <z-select-item [zValue]="gender.value">{{ gender.label }}</z-select-item>
+                  }
+                </z-select>
               </z-form-control>
             </z-form-field>
           </div>
@@ -345,25 +293,23 @@
               >
             </div>
             <div class="grid gap-3 sm:grid-cols-3">
-              <select formControlName="birthYear" class="{{ inputClasses }}">
-                <option [ngValue]="null">Año</option>
+              <z-select formControlName="birthYear" zPlaceholder="Año">
                 @for (year of years; track year) {
-                <option [value]="year">{{ year }}</option>
+                <z-select-item [zValue]="year.toString()">{{ year }}</z-select-item>
                 }
-              </select>
-              <select formControlName="birthMonth" class="{{ inputClasses }}">
-                <option [ngValue]="null">Mes</option>
+              </z-select>
+              <z-select formControlName="birthMonth" zPlaceholder="Mes">
                 @for (month of months; track month.value) {
-                <option [value]="month.value">{{ month.label }}</option>
+                <z-select-item [zValue]="month.value.toString()">{{ month.label }}</z-select-item>
                 }
-              </select>
-              <select formControlName="birthDay" class="{{ inputClasses }}">
-                <option [ngValue]="null">Día</option>
+              </z-select>
+              <z-select formControlName="birthDay" zPlaceholder="Día">
                 @for (day of days; track day) {
-                <option [value]="day">{{ day }}</option>
+                <z-select-item [zValue]="day.toString()">{{ day }}</z-select-item>
                 }
-              </select>
+              </z-select>
             </div>
+
             @if (form.errors?.['underAge']) {
             <p class="text-sm text-amber-300">Debes ser mayor de 18 años.</p>
             } @else if (form.errors?.['invalidDate']) {
@@ -375,12 +321,12 @@
             @if (statusTone) {
             <div
               class="rounded-lg border px-4 py-3 text-sm"
-              [ngClass]="{
-                'bg-emerald-500/10 border-emerald-500/40 text-emerald-100':
-                  statusTone === 'success',
-                'bg-red-500/10 border-red-500/40 text-red-100':
-                  statusTone === 'error'
-              }"
+              [class.bg-emerald-500/10]="statusTone === 'success'"
+              [class.border-emerald-500/40]="statusTone === 'success'"
+              [class.text-emerald-100]="statusTone === 'success'"
+              [class.bg-red-500/10]="statusTone === 'error'"
+              [class.border-red-500/40]="statusTone === 'error'"
+              [class.text-red-100]="statusTone === 'error'"
             >
               {{ statusMessage }}
             </div>

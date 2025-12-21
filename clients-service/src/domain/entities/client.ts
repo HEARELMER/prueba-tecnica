@@ -13,7 +13,19 @@ export interface ClientProps {
   nroDocumento: string;
   fechaNacimiento: Date;
   bonoBienvenida: boolean;
+  departamento: string;
+  provincia: string;
+  distrito: string;
+  codigoCelular: string;
+  numeroCelular: string;
+  genero: Genero;
   createdAt: Date;
+}
+
+export enum Genero {
+  MASCULINO = "M",
+  FEMENINO = "F",
+  OTRO = "O",
 }
 
 export class Client {
@@ -26,6 +38,12 @@ export class Client {
     nroDocumento: string;
     fechaNacimiento: Date;
     bonoBienvenida: boolean;
+    departamento: string;
+    provincia: string;
+    distrito: string;
+    codigoCelular: string;
+    numeroCelular: string;
+    genero: Genero;
   }): Client {
     const age = calculateAge(input.fechaNacimiento);
     if (age < 18) {
@@ -41,6 +59,12 @@ export class Client {
       nroDocumento: input.nroDocumento,
       fechaNacimiento: input.fechaNacimiento,
       bonoBienvenida: input.bonoBienvenida,
+      departamento: input.departamento,
+      provincia: input.provincia,
+      distrito: input.distrito,
+      codigoCelular: input.codigoCelular,
+      numeroCelular: input.numeroCelular,
+      genero: input.genero,
       createdAt: now,
     });
   }

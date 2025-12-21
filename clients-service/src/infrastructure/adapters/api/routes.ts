@@ -33,6 +33,12 @@ export class ApiRoutes {
             nro_documento: dto.nro_documento,
             fecha_nacimiento: dto.fecha_nacimiento,
             bono_bienvenida: dto.bono_bienvenida,
+            departamento: dto.departamento,
+            provincia: dto.provincia,
+            distrito: dto.distrito,
+            codigo_celular: dto.codigo_celular,
+            numero_celular: dto.numero_celular,
+            genero: dto.genero,
             token_code: dto.token_code,
           });
           return h.response(saved.toPrimitives()).code(201);

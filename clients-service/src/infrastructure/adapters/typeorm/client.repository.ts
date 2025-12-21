@@ -16,6 +16,12 @@ export class TypeOrmClientRepository implements ClientRepositoryPort {
       nroDocumento: data.nroDocumento,
       fechaNacimiento: data.fechaNacimiento,
       bonoBienvenida: data.bonoBienvenida,
+      departamento: data.departamento,
+      provincia: data.provincia,
+      distrito: data.distrito,
+      codigoCelular: data.codigoCelular,
+      numeroCelular: data.numeroCelular,
+      genero: data.genero,
       createdAt: data.createdAt,
     });
 
@@ -33,6 +39,12 @@ function mapToProps(entity: ClientEntity): ClientProps {
     nroDocumento: entity.nroDocumento,
     fechaNacimiento: entity.fechaNacimiento,
     bonoBienvenida: entity.bonoBienvenida,
+    departamento: entity.departamento,
+    provincia: entity.provincia,
+    distrito: entity.distrito,
+    codigoCelular: entity.codigoCelular,
+    numeroCelular: entity.numeroCelular,
+    genero: entity.genero,
     createdAt: entity.createdAt,
   };
 }

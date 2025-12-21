@@ -4,7 +4,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { TipoDocumento } from "../../../domain/entities/client";
+import { Genero, TipoDocumento } from "../../../domain/entities/client";
 
 @Entity({ name: "clients" })
 export class ClientEntity {
@@ -32,6 +32,24 @@ export class ClientEntity {
 
   @Column({ name: "bono_bienvenida", type: "boolean", default: false })
   bonoBienvenida!: boolean;
+
+  @Column({ type: "varchar", length: 120 })
+  departamento!: string;
+
+  @Column({ type: "varchar", length: 120 })
+  provincia!: string;
+
+  @Column({ type: "varchar", length: 120 })
+  distrito!: string;
+
+  @Column({ name: "codigo_celular", type: "varchar", length: 8 })
+  codigoCelular!: string;
+
+  @Column({ name: "numero_celular", type: "varchar", length: 20 })
+  numeroCelular!: string;
+
+  @Column({ type: "enum", enum: Genero })
+  genero!: Genero;
 
   @CreateDateColumn({ name: "created_at" })
   createdAt!: Date;
