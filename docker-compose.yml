@@ -12,8 +12,7 @@ services:
       - ./mysql-initi:/docker-entrypoint-initdb.d
     networks:
       - app-network
-
-  # HABÍAS BORRADO ESTO:
+ 
   redis:
     image: redis:alpine
     container_name: redis_container
