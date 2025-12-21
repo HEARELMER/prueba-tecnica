@@ -1,8 +1,8 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { env } from "./env"; 
-import { TokenEntity } from "../infrastructure/typeorm-token-entity";
- 
+import { TokenEntity } from "../infrastructure/export";
+
 export const appDataSource = new DataSource({
   type: "mysql",
   host: env.db.host,

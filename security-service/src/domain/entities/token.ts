@@ -1,5 +1,6 @@
 export interface Token {
   id: string;
-  code: string;
+  tokenCode: string;
   createdAt: Date;
+  isActive: boolean;
 }

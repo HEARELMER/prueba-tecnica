@@ -1,12 +1,10 @@
 import { Server } from "@hapi/hapi";
 import { appDataSource } from "./config/database";
-import { env } from "./config/env";
-import { TypeOrmTokenRepository } from "./infrastructure/typeorm-token-repository";
-import { GenerateToken } from "./application/generate-token";
-import { ValidateToken } from "./application/validate-token";
-import { registerRoutes } from "./infrastructure/routes";
-import { TokenEntity } from "./infrastructure/typeorm-token-entity";
-
+import { env } from "./config/env"; 
+import { GenerateToken } from "./application/generate-token/generate-token";
+import { ValidateToken } from "./application/validate-token/validate-token"; 
+import { ApiRoutes, TokenEntity, TypeOrmTokenRepository } from "./infrastructure/export"; 
+ 
 async function buildServer(): Promise<Server> {
   // Server encapsulates the HTTP listener and plugin system.
   const server = new Server({ port: env.port, host: "localhost" });
@@ -20,7 +18,8 @@ async function buildServer(): Promise<Server> {
   const generateToken = new GenerateToken(tokenRepo);
   const validateToken = new ValidateToken(tokenRepo);
 
-  registerRoutes(server, { generateToken, validateToken });
+  const apiRoutes = new ApiRoutes(generateToken, validateToken);
+  apiRoutes.register(server);
 
   // Hapi exposes lifecycle events; here we log when the server is ready.
   server.ext("onPostStart", () => {
