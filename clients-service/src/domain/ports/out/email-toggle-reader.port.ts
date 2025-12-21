@@ -1,3 +1,3 @@
-export interface EmailToggleReader {
+export interface EmailToggleReaderPort {
   isEmailSendingEnabled(): Promise<boolean>;
 }

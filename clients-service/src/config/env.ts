@@ -21,6 +21,6 @@ export const env = {
   },
   rabbitmq: {
     url: process.env.RABBITMQ_URL || "amqp://guest:guest@localhost:5672",
-    emailQueue: process.env.EMAIL_QUEUE || "emails",
+    emailQueue: process.env.EMAIL_QUEUE || "client_registered",
   },
 };

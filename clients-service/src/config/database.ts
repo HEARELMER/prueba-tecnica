@@ -1,7 +1,8 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { env } from "./env";
-import { ClientEntity } from "../infrastructure/typeorm-client-entity";
+import { ClientEntity } from "../infrastructure/adapters/typeorm/client.entity";
+import { GlobalParameterEntity } from "../infrastructure/adapters/typeorm/global-parameter.entity";
 
 export const appDataSource = new DataSource({
   type: "mysql",
@@ -10,6 +11,6 @@ export const appDataSource = new DataSource({
   username: env.db.username,
   password: env.db.password,
   database: env.db.database,
-  entities: [ClientEntity],
+  entities: [ClientEntity, GlobalParameterEntity],
   synchronize: true,
 });
