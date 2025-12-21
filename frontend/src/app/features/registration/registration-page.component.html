@@ -1,347 +1,247 @@
 <div class="relative min-h-screen overflow-hidden bg-slate-950 text-white">
-  <div class="pointer-events-none absolute inset-0 opacity-60">
-    <div
-      class="absolute -left-20 top-10 h-64 w-64 rounded-full bg-emerald-500/25 blur-3xl"
-    ></div>
-    <div
-      class="absolute right-0 top-20 h-72 w-72 rounded-full bg-cyan-500/20 blur-[120px]"
-    ></div>
-    <div
-      class="absolute bottom-0 left-10 h-80 w-80 rounded-full bg-amber-500/10 blur-[120px]"
-    ></div>
-    <div
-      class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(52,211,153,0.08),transparent_25%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.08),transparent_25%),radial-gradient(circle_at_60%_70%,rgba(251,191,36,0.08),transparent_22%)]"
-    ></div>
-  </div>
-
-  <div class="relative mx-auto max-w-6xl px-4 py-10 lg:py-14">
-    <header
-      class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
-    >
-      <div class="flex items-center gap-3">
+    <div class="pointer-events-none absolute inset-0 opacity-60">
+        <div class="absolute -left-20 top-10 h-64 w-64 rounded-full bg-emerald-500/25 blur-3xl"></div>
+        <div class="absolute right-0 top-20 h-72 w-72 rounded-full bg-cyan-500/20 blur-[120px]"></div>
+        <div class="absolute bottom-0 left-10 h-80 w-80 rounded-full bg-amber-500/10 blur-[120px]"></div>
         <div
-          class="flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 shadow-lg shadow-emerald-500/10"
-        >
-          <z-icon zType="zap" zSize="xl" class="text-emerald-300" />
+            class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(52,211,153,0.08),transparent_25%),radial-gradient(circle_at_80%_0%,rgba(14,165,233,0.08),transparent_25%),radial-gradient(circle_at_60%_70%,rgba(251,191,36,0.08),transparent_22%)]">
         </div>
-        <div>
-          <p class="text-xs uppercase tracking-[0.25em] text-emerald-300">
-            Registro
-          </p>
-          <h1 class="text-2xl font-semibold text-white sm:text-3xl">
-            Cliente nuevo en pocos pasos
-          </h1>
-          <p class="text-sm text-slate-300">Angular + Hapi + microservicios</p>
-        </div>
-      </div>
-      <z-badge
-        zType="secondary"
-        zShape="pill"
-        class="gap-2 border border-white/10 bg-white/10 text-white"
-      >
-        <z-icon zType="shield" />
-        Token de seguridad en vivo
-      </z-badge>
-    </header>
+    </div>
 
-    <div class="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-      <div class="space-y-3">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-xs uppercase tracking-[0.3em] text-emerald-300">
-              Paso 1
-            </p>
-            <h3 class="text-lg font-semibold text-white">Bono de bienvenida</h3>
-          </div>
-        </div>
-        <div class="grid gap-3 sm:grid-cols-3">
-          @for (bonus of bonusOptions; track bonus.id) {
-          <label
-            class="group relative block cursor-pointer rounded-xl border border-white/10 bg-white/5 px-4 py-4 transition hover:-translate-y-[1px] hover:border-emerald-400/60 hover:shadow-lg hover:shadow-emerald-500/10"
-            [class.outline-outline-emerald-500]="form.value.bonus === bonus.id"
-          >
-            <input
-              class="sr-only"
-              type="radio"
-              [value]="bonus.id"
-              formControlName="bonus"
-            />
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-sm font-semibold text-white">
-                  {{ bonus.title }}
-                </p>
-                <p class="text-xs text-slate-300">{{ bonus.subtitle }}</p>
-              </div>
-              <div
-                class="rounded-md bg-gradient-to-br {{ bonus.accent }} px-2 py-1 text-[11px] font-semibold uppercase tracking-widest text-slate-900"
-              >
-                Bono
-              </div>
+    
+    <div class="relative mx-auto max-w-6xl px-4 py-10 lg:py-14">
+        <header class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="flex h-12 w-12 items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/10 shadow-lg shadow-emerald-500/10">
+                    <z-icon zType="zap" zSize="xl" class="text-emerald-300" />
+                </div>
+
+
+                <div>
+                    <p class="text-xs uppercase tracking-[0.25em] text-emerald-300">Registro</p> 
+                </div>
             </div>
-          </label>
-          }
-        </div>
-      </div>
-      <section
-        class="rounded-2xl border border-white/10 bg-slate-900/80 shadow-2xl shadow-emerald-500/10 backdrop-blur"
-      >
-        <form
-          class="space-y-6 p-6 lg:p-7"
-          [formGroup]="form"
-          (ngSubmit)="onSubmit()"
-        >
-          <div
-            class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
-          >
-            <div>
-              <p class="text-xs uppercase tracking-[0.3em] text-emerald-300">
-                Token en vivo
-              </p>
-              <h2 class="text-xl font-semibold text-white">
-                Código de seguridad (8 dígitos)
-              </h2>
-              <p class="text-sm text-slate-400">
-                Puedes editarlo para pruebas.
-              </p>
+            <z-badge zType="secondary" zShape="pill" class="gap-2 border border-white/10 bg-white/10 text-white">
+                <z-icon zType="shield" />
+                Token de seguridad en vivo
+            </z-badge>
+        </header>
+
+        <div class="grid items-start gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.3em] text-emerald-300">Paso 1</p>
+                        <h3 class="text-lg font-semibold text-white">Bono de bienvenida</h3>
+                    </div>
+                </div>
+                <div class="grid gap-3 sm:grid-cols-3">
+                    @for (bonus of bonusOptions; track bonus.id) {
+                    <label
+                        class="group relative block cursor-pointer rounded-xl border border-white/10 bg-white/5 px-4 py-4 transition hover:-translate-y-[1px] hover:border-emerald-400/60 hover:shadow-lg hover:shadow-emerald-500/10"
+                        [class.outline-outline-emerald-500]="form.value.bonus === bonus.id">
+                        <input class="sr-only" type="radio" [value]="bonus.id" formControlName="bonus" />
+                        <div class="flex items-start justify-between gap-3">
+                            <div>
+                                <p class="text-sm font-semibold text-white">{{ bonus.title }}</p>
+                                <p class="text-xs text-slate-300">{{ bonus.subtitle }}</p>
+                            </div>
+                            <div
+                                class="rounded-md bg-gradient-to-br {{ bonus.accent }} px-2 py-1 text-[11px] font-semibold uppercase tracking-widest text-slate-900">
+                                Bono
+                            </div>
+                        </div>
+                    </label>
+                    }
+                </div>
             </div>
-            <button
-              type="button"
-              class="inline-flex items-center gap-2 rounded-full border border-emerald-400/60 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:-translate-y-[1px] hover:border-emerald-300 hover:bg-emerald-500/20"
-              (click)="fetchToken()"
-              [disabled]="loadingToken"
-            >
-              <z-icon
-                zType="loader-circle"
-                class="text-emerald-200"
-                [class.animate-spin]="loadingToken"
-              />
-              {{ loadingToken ? "Solicitando..." : "Nuevo token" }}
-            </button>
-          </div>
 
-          <z-form-field>
-            <z-form-label zRequired>Token</z-form-label>
-            <z-form-control
-              [errorMessage]="
-                getControl('tokenCode').touched &&
-                getControl('tokenCode').invalid
-                  ? 'Debe tener 8 dígitos'
-                  : ''
-              "
-            >
-              <input
-                formControlName="tokenCode"
-                autocomplete="one-time-code"
-                inputmode="numeric"
-                maxlength="8"
-                [class]="inputClasses"
-                placeholder="00000000"
-              />
-            </z-form-control>
-          </z-form-field>
+            <section
+                class="rounded-2xl border border-white/10 bg-slate-900/80 shadow-2xl shadow-emerald-500/10 backdrop-blur">
+                <form class="space-y-6 p-6 lg:p-7" [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <p class="text-xs uppercase tracking-[0.3em] text-emerald-300">Token en vivo</p>
+                            <h2 class="text-xl font-semibold text-white">Código de seguridad (8 dígitos)</h2>
+                           
+                        </div>
+                        <button type="button"
+                            class="inline-flex items-center gap-2 rounded-full border border-emerald-400/60 bg-emerald-500/10 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:-translate-y-[1px] hover:border-emerald-300 hover:bg-emerald-500/20"
+                            (click)="fetchToken()" [disabled]="loadingToken">
+                            <z-icon zType="loader-circle" class="text-emerald-200"
+                                [class.animate-spin]="loadingToken" />
+                            {{ loadingToken ? 'Solicitando...' : 'Nuevo token' }}
+                        </button>
+                    </div>
 
-          <div class="grid gap-4 sm:grid-cols-2">
-            <z-form-field>
-              <z-form-label zRequired>Documento</z-form-label>
-              <z-form-control>
-                <z-select
-                  formControlName="documentType"
-                  zPlaceholder="Tipo de documento"
-                >
-                  @for (doc of documentTypes; track doc.value) {
-                  <z-select-item [zValue]="doc.value">{{ doc.label }}</z-select-item>
-                  }
-                </z-select>
-              </z-form-control>
-            </z-form-field>
-            <z-form-field>
-              <z-form-label zRequired>Número de documento</z-form-label>
-              <z-form-control
-                [errorMessage]="
-                  getControl('documentNumber').touched &&
-                  getControl('documentNumber').invalid
+                    <z-form-field>
+                        <z-form-label zRequired>Token</z-form-label>
+                        <z-form-control
+                            [errorMessage]="getControl('tokenCode').touched && getControl('tokenCode').invalid ? 'Debe tener 8 dígitos' : ''">
+                            <input formControlName="tokenCode" autocomplete="one-time-code" inputmode="numeric"
+                                maxlength="8" [class]="inputClasses" placeholder="00000000" />
+                        </z-form-control>
+                    </z-form-field>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <z-form-field>
+                            <z-form-label zRequired>Documento</z-form-label>
+                            <z-form-control>
+                                <z-select formControlName="documentType" zPlaceholder="Tipo de documento">
+                                    @for (doc of documentTypes; track doc.value) {
+                                    <z-select-item [zValue]="doc.value">{{ doc.label }}</z-select-item>
+                                    }
+                                </z-select>
+                            </z-form-control>
+                        </z-form-field>
+                        <z-form-field>
+                            <z-form-label zRequired>Número de documento</z-form-label>
+                            <z-form-control [errorMessage]="
+                  getControl('documentNumber').touched && getControl('documentNumber').invalid
                     ? 'Entre 8 y 15 caracteres'
                     : ''
-                "
-              >
-                <input
-                  formControlName="documentNumber"
-                  autocomplete="off"
-                  [class]="inputClasses"
-                  placeholder="Ingresa tu número"
-                />
-              </z-form-control>
-            </z-form-field>
-          </div>
+                ">
+                                <input formControlName="documentNumber" autocomplete="off" [class]="inputClasses"
+                                    placeholder="Ingresa tu número" />
+                            </z-form-control>
+                        </z-form-field>
+                    </div>
 
-          <div class="grid gap-4 sm:grid-cols-2">
-            <z-form-field>
-              <z-form-label zRequired>Nombres</z-form-label>
-              <z-form-control
-                [errorMessage]="
-                  getControl('names').touched && getControl('names').invalid
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <z-form-field>
+                            <z-form-label zRequired>Nombres</z-form-label>
+                            <z-form-control
+                                [errorMessage]="getControl('names').touched && getControl('names').invalid ? 'Campo requerido' : ''">
+                                <input formControlName="names" [class]="inputClasses"
+                                    placeholder="Como figura en el documento" />
+                            </z-form-control>
+                        </z-form-field>
+                        <z-form-field>
+                            <z-form-label zRequired>Apellidos</z-form-label>
+                            <z-form-control [errorMessage]="
+                  getControl('surnames').touched && getControl('surnames').invalid
                     ? 'Campo requerido'
                     : ''
-                "
-              >
-                <input
-                  formControlName="names"
-                  [class]="inputClasses"
-                  placeholder="Como figura en el documento"
-                />
-              </z-form-control>
-            </z-form-field>
-            <z-form-field>
-              <z-form-label zRequired>Apellidos</z-form-label>
-              <z-form-control
-                [errorMessage]="
-                  getControl('surnames').touched &&
-                  getControl('surnames').invalid
-                    ? 'Campo requerido'
-                    : ''
-                "
-              >
-                <input
-                  formControlName="surnames"
-                  [class]="inputClasses"
-                  placeholder="Como figura en el documento"
-                />
-              </z-form-control>
-            </z-form-field>
-          </div>
+                ">
+                                <input formControlName="surnames" [class]="inputClasses"
+                                    placeholder="Como figura en el documento" />
+                            </z-form-control>
+                        </z-form-field>
+                    </div>
 
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <h3 class="text-lg font-semibold text-white">Lugar de residencia</h3>
-              <span class="text-xs text-slate-400">Departamento / Provincia / Distrito</span>
-            </div>
-            <div class="grid gap-3 sm:grid-cols-3">
-              <z-select formControlName="department" zPlaceholder="Departamento">
-                @for (dep of departments; track dep) {
-                <z-select-item [zValue]="dep">{{ dep }}</z-select-item>
-                }
-              </z-select>
-              <z-select formControlName="province" zPlaceholder="Provincia">
-                @for (prov of provinces; track prov) {
-                <z-select-item [zValue]="prov">{{ prov }}</z-select-item>
-                }
-              </z-select>
-              <z-select formControlName="district" zPlaceholder="Distrito">
-                @for (dist of districts; track dist) {
-                <z-select-item [zValue]="dist">{{ dist }}</z-select-item>
-                }
-              </z-select>
-            </div>
-          </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-white">Lugar de residencia</h3>
+                            <span class="text-xs text-slate-400">Departamento / Provincia / Distrito</span>
+                        </div>
+                        <div class="grid gap-3 sm:grid-cols-3">
+                            <z-select formControlName="department" zPlaceholder="Departamento">
+                                @for (dep of departments; track dep) {
+                                <z-select-item [zValue]="dep">{{ dep }}</z-select-item>
+                                }
+                            </z-select>
+                            <z-select formControlName="province" zPlaceholder="Provincia">
+                                @for (prov of provinces; track prov) {
+                                <z-select-item [zValue]="prov">{{ prov }}</z-select-item>
+                                }
+                            </z-select>
+                            <z-select formControlName="district" zPlaceholder="Distrito">
+                                @for (dist of districts; track dist) {
+                                <z-select-item [zValue]="dist">{{ dist }}</z-select-item>
+                                }
+                            </z-select>
+                        </div>
+                    </div>
 
-          <div class="grid gap-3 sm:grid-cols-[1fr_2fr]">
-            <z-form-field>
-              <z-form-label zRequired>Código</z-form-label>
-              <z-form-control>
-                <input
-                  formControlName="phoneCode"
-                  [class]="inputClasses"
-                  readonly
-                />
-              </z-form-control>
-            </z-form-field>
-            <z-form-field>
-              <z-form-label zRequired>Número de celular</z-form-label>
-              <z-form-control
-                [errorMessage]="
+                    <div class="grid gap-3 sm:grid-cols-[1fr_2fr]">
+                        <z-form-field>
+                            <z-form-label zRequired>Código</z-form-label>
+                            <z-form-control>
+                                <input formControlName="phoneCode" [class]="inputClasses" readonly />
+                            </z-form-control>
+                        </z-form-field>
+                        <z-form-field>
+                            <z-form-label zRequired>Número de celular</z-form-label>
+                            <z-form-control [errorMessage]="
                   getControl('phoneNumber').touched && getControl('phoneNumber').invalid
                     ? 'Ingresa un número válido'
                     : ''
-                "
-              >
-                <input
-                  formControlName="phoneNumber"
-                  [class]="inputClasses"
-                  inputmode="tel"
-                  placeholder="Ingresa tu número"
-                />
-              </z-form-control>
-            </z-form-field>
-          </div>
+                ">
+                                <input formControlName="phoneNumber" [class]="inputClasses" inputmode="tel"
+                                    placeholder="Ingresa tu número" />
+                            </z-form-control>
+                        </z-form-field>
+                    </div>
 
-          <div class="space-y-2">
-            <z-form-field>
-              <z-form-label zRequired>Género</z-form-label>
-              <z-form-control>
-                <z-select formControlName="gender" zPlaceholder="Selecciona un género">
-                  @for (gender of genders; track gender.value) {
-                  <z-select-item [zValue]="gender.value">{{ gender.label }}</z-select-item>
-                  }
-                </z-select>
-              </z-form-control>
-            </z-form-field>
-          </div>
+                    <div class="space-y-2">
+                        <z-form-field>
+                            <z-form-label zRequired>Género</z-form-label>
+                            <z-form-control>
+                                <z-select formControlName="gender" zPlaceholder="Selecciona un género">
+                                    @for (gender of genders; track gender.value) {
+                                    <z-select-item [zValue]="gender.value">{{ gender.label }}</z-select-item>
+                                    }
+                                </z-select>
+                            </z-form-control>
+                        </z-form-field>
+                    </div>
 
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-xs uppercase tracking-[0.3em] text-emerald-300">
-                  Paso 2
-                </p>
-                <h3 class="text-lg font-semibold text-white">
-                  Fecha de nacimiento
-                </h3>
-              </div>
-              <span class="text-xs text-slate-400"
-                >Validamos mayoría de edad</span
-              >
-            </div>
-            <div class="grid gap-3 sm:grid-cols-3">
-              <z-select formControlName="birthYear" zPlaceholder="Año">
-                @for (year of years; track year) {
-                <z-select-item [zValue]="year.toString()">{{ year }}</z-select-item>
-                }
-              </z-select>
-              <z-select formControlName="birthMonth" zPlaceholder="Mes">
-                @for (month of months; track month.value) {
-                <z-select-item [zValue]="month.value.toString()">{{ month.label }}</z-select-item>
-                }
-              </z-select>
-              <z-select formControlName="birthDay" zPlaceholder="Día">
-                @for (day of days; track day) {
-                <z-select-item [zValue]="day.toString()">{{ day }}</z-select-item>
-                }
-              </z-select>
-            </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.3em] text-emerald-300">Paso 2</p>
+                                <h3 class="text-lg font-semibold text-white">Fecha de nacimiento</h3>
+                            </div>
+                            <span class="text-xs text-slate-400">Validamos mayoría de edad</span>
+                        </div>
+                        <div class="grid gap-3 sm:grid-cols-3">
+                            <z-select formControlName="birthYear" zPlaceholder="Año">
+                                @for (year of years; track year) {
+                                <z-select-item [zValue]="year.toString()">{{ year }}</z-select-item>
+                                }
+                            </z-select>
+                            <z-select formControlName="birthMonth" zPlaceholder="Mes">
+                                @for (month of months; track month.value) {
+                                <z-select-item [zValue]="month.value.toString()">{{ month.label }}</z-select-item>
+                                }
+                            </z-select>
+                            <z-select formControlName="birthDay" zPlaceholder="Día">
+                                @for (day of days; track day) {
+                                <z-select-item [zValue]="day.toString()">{{ day }}</z-select-item>
+                                }
+                            </z-select>
+                        </div>
 
-            @if (form.errors?.['underAge']) {
-            <p class="text-sm text-amber-300">Debes ser mayor de 18 años.</p>
-            } @else if (form.errors?.['invalidDate']) {
-            <p class="text-sm text-red-400">Fecha no válida.</p>
-            }
-          </div>
+                        @if (form.errors?.['underAge']) {
+                        <p class="text-sm text-amber-300">Debes ser mayor de 18 años.</p>
+                        } @else if (form.errors?.['invalidDate']) {
+                        <p class="text-sm text-red-400">Fecha no válida.</p>
+                        }
+                    </div>
 
-          <div class="space-y-3">
-            @if (statusTone) {
-            <div
-              class="rounded-lg border px-4 py-3 text-sm"
-              [class.bg-emerald-500/10]="statusTone === 'success'"
-              [class.border-emerald-500/40]="statusTone === 'success'"
-              [class.text-emerald-100]="statusTone === 'success'"
-              [class.bg-red-500/10]="statusTone === 'error'"
-              [class.border-red-500/40]="statusTone === 'error'"
-              [class.text-red-100]="statusTone === 'error'"
-            >
-              {{ statusMessage }}
-            </div>
-            }
-            <button
-              type="submit"
-              class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-4 py-3 text-base font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
-              [disabled]="submitting"
-            >
-              <z-icon zType="arrow-right" class="text-slate-900" />
-              {{ submitting ? "Enviando..." : "Continuar y registrar" }}
-            </button>
-          </div>
-        </form>
-      </section>
+                    <!-- <div class="space-y-3">
+                        @if (statusTone) {
+                        <div class="rounded-lg border px-4 py-3 text-sm"
+                            [class.bg-emerald-500/10]="statusTone === 'success'"
+                            [class.border-emerald-500/40]="statusTone === 'success'"
+                            [class.text-emerald-100]="statusTone === 'success'"
+                            [class.bg-red-500/10]="statusTone === 'error'"
+                            [class.border-red-500/40]="statusTone === 'error'"
+                            [class.text-red-100]="statusTone === 'error'">
+                            {{ statusMessage }}
+                        </div>
+                        }
+                        <button type="submit"
+                            class="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-4 py-3 text-base font-semibold text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-70"
+                            [disabled]="submitting">
+                            <z-icon zType="arrow-right" class="text-slate-900" />
+                            {{ submitting ? 'Enviando...' : 'Continuar y registrar' }}
+                        </button>
+                    </div> -->
+                </form>
+            </section>
+        </div>
     </div>
-  </div>
 </div>
+
