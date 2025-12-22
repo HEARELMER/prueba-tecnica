@@ -3,8 +3,12 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   OnInit,
+  QueryList,
+  ViewChildren,
   inject,
+  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -16,6 +20,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { toast } from 'ngx-sonner';
 
 import { ClientsSdkService } from '@/sdk/clients/clients-sdk.service';
@@ -56,10 +61,14 @@ type Gender = 'M' | 'F' | 'O';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationPageComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly fb = inject(FormBuilder);
   private readonly securitySdk = inject(SecuritySdkService);
   private readonly clientsSdk = inject(ClientsSdkService);
   private readonly ubigeo = inject(UbigeoService);
+
+  @ViewChildren(ZardSelectComponent)
+  locationSelects!: QueryList<ZardSelectComponent>;
 
   readonly bonusOptions: BonusOption[] = [
     {
@@ -107,6 +116,9 @@ export class RegistrationPageComponent implements OnInit {
   departments: string[] = [];
   provinces: string[] = [];
   districts: string[] = [];
+  departmentValue = signal<string>('');
+  provinceValue = signal<string>('');
+  districtValue = signal<string>('');
   readonly genders: { value: Gender; label: string }[] = [
     { value: 'M', label: 'Masculino' },
     { value: 'F', label: 'Femenino' },
@@ -212,20 +224,9 @@ export class RegistrationPageComponent implements OnInit {
     }
   }
 
-  async bindLocationChanges(): Promise<void> {
-    this.loadingToken = true;
-    this.statusTone = '';
-    try {
-      const token = await firstValueFrom(this.securitySdk.generateToken$());
-      this.form.patchValue({ tokenCode: token.tokenCode });
-    } catch (error) {
-      const message =
-        (error as Error)?.message ?? 'No se pudo obtener el token de seguridad';
-      this.statusTone = 'error';
-      this.statusMessage = message;
-    } finally {
-      this.loadingToken = false;
-    }
+  bindLocationChanges(): void {
+    // Los cambios de ubicación se manejan en los métodos onDepartmentSelect, onProvinceSelect y onDistrictSelect
+    // que se disparan cuando el usuario selecciona un item del dropdown
   }
 
   private loadUbigeo(): void {
@@ -256,24 +257,54 @@ export class RegistrationPageComponent implements OnInit {
   //   });
   // }
 
-  onDepartmentSelect(value: string | string[]): void {
-    console.log(value);
-    const department = Array.isArray(value) ? value[0] ?? '' : value;
-    this.form.patchValue({ department, province: '', district: '' });
-    this.updateProvinces(department);
-    this.districts = [];
+  onDepartmentSelect(value: string): void {
+    if (value) {
+      this.departmentValue.set(value);
+      this.form.patchValue(
+        { department: value, province: '', district: '' },
+        { emitEvent: false }
+      );
+      this.updateProvinces(value);
+      this.provinceValue.set('');
+      this.districtValue.set('');
+      this.districts = [];
+      this.closeLocationSelects();
+    }
   }
 
-  onProvinceSelect(value: string | string[]): void {
-    const province = Array.isArray(value) ? value[0] ?? '' : value;
+  onProvinceSelect(value: string): void {
     const department = this.form.get('department')?.value ?? '';
-    this.form.patchValue({ province, district: '' });
-    this.updateDistricts(department, province);
+    if (department && value) {
+      this.provinceValue.set(value);
+      this.form.patchValue(
+        { province: value, district: '' },
+        { emitEvent: false }
+      );
+      this.updateDistricts(department, value);
+      this.districtValue.set('');
+      this.closeLocationSelects();
+    }
   }
 
-  onDistrictSelect(value: string | string[]): void {
-    const district = Array.isArray(value) ? value[0] ?? '' : value;
-    this.form.patchValue({ district });
+  onDistrictSelect(value: string): void {
+    if (value) {
+      this.districtValue.set(value);
+      this.form.patchValue({ district: value }, { emitEvent: false });
+      this.closeLocationSelects();
+    }
+  }
+
+  private closeLocationSelects(): void {
+    // Cierra todos los selectores de ubicación
+    this.locationSelects.forEach((select) => {
+      if (select.toggle) {
+        // Verificar si está abierto y cerrarlo
+        const isOpen = (select as any).isOpen?.();
+        if (isOpen) {
+          select.toggle();
+        }
+      }
+    });
   }
 
   updateProvinces(department: string): void {
