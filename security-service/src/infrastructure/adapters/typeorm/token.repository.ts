@@ -1,9 +1,8 @@
-import { Repository } from "typeorm"; 
+import { Repository } from "typeorm";
 import { TokenEntity } from "./token.entity";
 import { Token } from "../../../domain/entities/token";
 import { TokenRepositoryPort } from "../../../domain/ports/out/token-repository.port";
 
-// TypeORM adapter implementing the outbound repository port
 export class TypeOrmTokenRepository implements TokenRepositoryPort {
   constructor(private readonly repo: Repository<TokenEntity>) {}
 

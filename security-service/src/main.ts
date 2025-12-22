@@ -10,11 +10,9 @@ import {
 } from "./infrastructure/export";
 
 async function buildServer(): Promise<Server> {
-  // Server encapsulates the HTTP listener and plugin system.
-  // Bind to all interfaces so it is reachable inside Docker network
+  // Server encapsulates the HTTP listener and plugin system. 
   const server = new Server({ port: env.port, host: "0.0.0.0" });
-
-  // Initialize DB once during bootstrap to keep handlers lean.
+ 
   await appDataSource.initialize();
   const tokenRepo = new TypeOrmTokenRepository(
     appDataSource.getRepository(TokenEntity)
@@ -25,8 +23,7 @@ async function buildServer(): Promise<Server> {
 
   const apiRoutes = new ApiRoutes(generateToken, validateToken);
   apiRoutes.register(server);
-
-  // Hapi exposes lifecycle events; here we log when the server is ready.
+ 
   server.ext("onPostStart", () => {
     console.info(`[security] Hapi server started at ${server.info.uri}`);
     return undefined;

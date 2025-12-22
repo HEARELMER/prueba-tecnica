@@ -1,8 +1,7 @@
 import { Server, Request, ResponseToolkit } from "@hapi/hapi";
 import { GenerateTokenUseCase } from "../../../domain/ports/in/generate-token.use-case";
 import { ValidateTokenUseCase } from "../../../domain/ports/in/validate-token.use-case";
-
-// Class-based HTTP adapter (Nest-like style)
+ 
 export class ApiRoutes {
   constructor(
     private readonly generateToken: GenerateTokenUseCase,

@@ -7,8 +7,7 @@ import { GenerateTokenUseCase } from "../../domain/ports/in/generate-token.use-c
 export class GenerateToken implements GenerateTokenUseCase {
   constructor(private readonly tokenRepository: TokenRepositoryPort) {}
 
-  async execute(): Promise<Token> {
-    // Generates an 8-digit numeric string, preserving leading zeros
+  async execute(): Promise<Token> { 
     const tokenCode = randomInt(0, 10 ** 8)
       .toString()
       .padStart(8, "0");
