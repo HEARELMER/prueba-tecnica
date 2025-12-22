@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class ClientsSdkService {
-  private readonly baseUrl = environment.api.clientsBaseUrl;
+  private readonly baseUrl = environment.apiBaseUrl;
 
   constructor(private readonly api: ApiClientService) {}
 
@@ -15,7 +15,7 @@ export class ClientsSdkService {
     payload: RegisterClientRequest
   ): Observable<RegisterClientResponse> {
     return this.api.post$<RegisterClientResponse>(
-      `${this.baseUrl}/clients`,
+      `${this.baseUrl}/clients/clients`,
       payload
     );
   }

@@ -16,7 +16,8 @@ import {
   GlobalParameterEntity,
 } from "./infrastructure/export";
 async function buildServer(): Promise<Server> {
-  const server = new Server({ port: env.port, host: "localhost" });
+  // Bind to all interfaces so it is reachable inside Docker network
+  const server = new Server({ port: env.port, host: "0.0.0.0" });
 
   await appDataSource.initialize();
 

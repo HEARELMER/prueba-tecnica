@@ -7,17 +7,23 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SecuritySdkService {
-  private readonly baseUrl = environment.api.securityBaseUrl;
+  private readonly baseUrl = environment.apiBaseUrl;
 
   constructor(private readonly api: ApiClientService) {}
 
   generateToken$(): Observable<SecurityToken> {
-    return this.api.post$<SecurityToken>(`${this.baseUrl}/generate`, {});
+    return this.api.post$<SecurityToken>(
+      `${this.baseUrl}/security/generate`,
+      {}
+    );
   }
 
   validateToken$(token: string): Observable<ValidateTokenResponse> {
-    return this.api.post$<ValidateTokenResponse>(`${this.baseUrl}/validate`, {
-      token_code: token,
-    });
+    return this.api.post$<ValidateTokenResponse>(
+      `${this.baseUrl}/security/validate`,
+      {
+        token_code: token,
+      }
+    );
   }
 }

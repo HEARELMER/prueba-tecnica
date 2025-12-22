@@ -1,7 +1,5 @@
 export const environment = {
   production: false,
-  api: {
-    securityBaseUrl: 'http://localhost:3001',
-    clientsBaseUrl: 'http://localhost:3002',
-  },
+  // Gateway base URL (single entrypoint for all microservices)
+  apiBaseUrl: 'http://localhost:8080',
 };

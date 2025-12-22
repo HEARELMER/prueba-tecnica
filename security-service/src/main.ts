@@ -1,13 +1,18 @@
 import { Server } from "@hapi/hapi";
 import { appDataSource } from "./config/database";
-import { env } from "./config/env"; 
+import { env } from "./config/env";
 import { GenerateToken } from "./application/generate-token/generate-token";
-import { ValidateToken } from "./application/validate-token/validate-token"; 
-import { ApiRoutes, TokenEntity, TypeOrmTokenRepository } from "./infrastructure/export"; 
- 
+import { ValidateToken } from "./application/validate-token/validate-token";
+import {
+  ApiRoutes,
+  TokenEntity,
+  TypeOrmTokenRepository,
+} from "./infrastructure/export";
+
 async function buildServer(): Promise<Server> {
   // Server encapsulates the HTTP listener and plugin system.
-  const server = new Server({ port: env.port, host: "localhost" });
+  // Bind to all interfaces so it is reachable inside Docker network
+  const server = new Server({ port: env.port, host: "0.0.0.0" });
 
   // Initialize DB once during bootstrap to keep handlers lean.
   await appDataSource.initialize();

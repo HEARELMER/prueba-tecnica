@@ -42,5 +42,13 @@ export class ApiRoutes {
         return h.response({ valid: isValid }).code(isValid ? 200 : 404);
       },
     });
+
+    server.route({
+      method: "GET",
+      path: "/status",
+      handler: (_request: Request, h: ResponseToolkit) => {
+        return h.response({ status: "ok" }).code(200);
+      },
+    });
   }
 }
