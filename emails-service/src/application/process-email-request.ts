@@ -9,6 +9,7 @@ export interface ClientRegisteredEvent {
   nroDocumento?: string;
   fechaNacimiento?: string;
   bonoBienvenida?: boolean;
+  correoElectronico?: string;
   createdAt?: string;
 }
 
@@ -46,6 +47,11 @@ export class ProcessEmailRequest {
 }
 
 function buildDestinatario(event: ClientRegisteredEvent): string {
+  // Usar el correo electrónico si está disponible
+  if (event.correoElectronico && event.correoElectronico.trim().length > 0) {
+    return event.correoElectronico;
+  }
+
   const fullName = [event.nombres, event.apellidos]
     .filter(Boolean)
     .join(" ")

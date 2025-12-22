@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsDateString,
+  IsEmail,
   IsEnum,
   IsNotEmpty,
   IsString,
@@ -55,6 +56,11 @@ export class RegisterClientDto {
 
   @IsEnum(Genero)
   genero!: Genero;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsEmail()
+  correo_electronico!: string;
 
   @IsString()
   @IsNotEmpty()

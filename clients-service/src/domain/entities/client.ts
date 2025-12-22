@@ -18,6 +18,7 @@ export interface ClientProps {
   distrito: string;
   codigoCelular: string;
   numeroCelular: string;
+  correoElectronico: string;
   genero: Genero;
   createdAt: Date;
 }
@@ -43,6 +44,7 @@ export class Client {
     distrito: string;
     codigoCelular: string;
     numeroCelular: string;
+    correoElectronico: string;
     genero: Genero;
   }): Client {
     const age = calculateAge(input.fechaNacimiento);
@@ -64,6 +66,7 @@ export class Client {
       distrito: input.distrito,
       codigoCelular: input.codigoCelular,
       numeroCelular: input.numeroCelular,
+      correoElectronico: input.correoElectronico,
       genero: input.genero,
       createdAt: now,
     });

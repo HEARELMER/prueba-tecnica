@@ -48,6 +48,14 @@ export class ClientEntity {
   @Column({ name: "numero_celular", type: "varchar", length: 20 })
   numeroCelular!: string;
 
+  @Column({
+    name: "correo_electronico",
+    type: "varchar",
+    length: 150,
+    unique: true,
+  })
+  correoElectronico!: string;
+
   @Column({ type: "enum", enum: Genero })
   genero!: Genero;
 

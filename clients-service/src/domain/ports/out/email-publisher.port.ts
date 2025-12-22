@@ -14,5 +14,6 @@ export interface EmailPublisherPort {
     numeroCelular: string;
     genero: string;
     createdAt: string;
+    correoElectronico: string;
   }): Promise<void>;
 }

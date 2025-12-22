@@ -12,6 +12,7 @@ export interface RegisterClientUseCase {
     provincia: string;
     distrito: string;
     codigo_celular: string;
+    correo_electronico: string;
     numero_celular: string;
     genero: Genero;
     token_code: string;

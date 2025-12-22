@@ -32,6 +32,7 @@ import { ZardSelectItemComponent } from '@/shared/components/select/select-item.
 import { ZardBadgeComponent } from '@/shared/components/badge/badge.component';
 import { ZardIconComponent } from '@/shared/components/icon/icon.component';
 import { UbigeoService } from '@/core/ubigeo.service';
+import { SuccessScreenComponent } from './components/success-screen.component';
 
 interface BonusOption {
   id: 'casino' | 'sports' | 'none';
@@ -55,6 +56,7 @@ type Gender = 'M' | 'F' | 'O';
     ZardBadgeComponent,
     ZardIconComponent,
     JsonPipe,
+    SuccessScreenComponent,
   ],
   templateUrl: './registration-page.component.html',
   styleUrl: './registration-page.component.css',
@@ -131,6 +133,8 @@ export class RegistrationPageComponent implements OnInit {
   submitting = false;
   statusMessage = '';
   statusTone: 'success' | 'error' | '' = '';
+  registrationSuccess = signal(false);
+  successData = signal({ fullName: '', documentInfo: '' });
 
   readonly form = this.fb.group(
     {
@@ -189,6 +193,10 @@ export class RegistrationPageComponent implements OnInit {
       }),
       birthDay: new FormControl<number | null>(null, {
         validators: [Validators.required],
+      }),
+      email: new FormControl('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.email],
       }),
       tokenCode: new FormControl('', {
         nonNullable: true,
@@ -343,6 +351,7 @@ export class RegistrationPageComponent implements OnInit {
       distrito: formValue.district.trim(),
       codigo_celular: formValue.phoneCode.trim(),
       numero_celular: formValue.phoneNumber.trim(),
+      correo_electronico: formValue.email.trim(),
       genero: formValue.gender ?? 'O',
     };
 
@@ -354,25 +363,15 @@ export class RegistrationPageComponent implements OnInit {
         this.clientsSdk.registerClient$(payload)
       );
       this.statusTone = 'success';
-      this.statusMessage = `Cliente ${response.nombres} registrado`; // backend returns nombres & apellidos
+      this.statusMessage = `Cliente ${response.nombres} registrado`;
       toast.success('Cliente registrado correctamente');
-      this.form.reset({
-        bonus: formValue.bonus,
-        documentType: 'DNI',
-        documentNumber: '',
-        names: '',
-        surnames: '',
-        department: '',
-        province: '',
-        district: '',
-        phoneCode: '+51',
-        phoneNumber: '',
-        gender: null,
-        birthYear: null,
-        birthMonth: null,
-        birthDay: null,
-        tokenCode: payload.token_code,
+
+      // Mostrar pantalla de éxito
+      this.successData.set({
+        fullName: `${response.nombres} ${response.apellidos || ''}`,
+        documentInfo: `${formValue.documentType} - ${formValue.documentNumber}`,
       });
+      this.registrationSuccess.set(true);
     } catch (error) {
       const message =
         (error as Error)?.message ?? 'No se pudo completar el registro';
@@ -382,6 +381,29 @@ export class RegistrationPageComponent implements OnInit {
     } finally {
       this.submitting = false;
     }
+  }
+
+  onSuccessScreenContinue(): void {
+    // Aquí puedes navegar a otra pantalla o hacer lo que necesites
+    // Por ahora resetea el form y vuelve a mostrar el form
+    this.registrationSuccess.set(false);
+    this.form.reset({
+      bonus: 'casino',
+      documentType: 'DNI',
+      documentNumber: '',
+      names: '',
+      surnames: '',
+      department: '',
+      province: '',
+      district: '',
+      phoneCode: '+51',
+      phoneNumber: '',
+      gender: null,
+      birthYear: null,
+      birthMonth: null,
+      birthDay: null,
+      tokenCode: '',
+    });
   }
 
   private adultValidator(): ValidatorFn {

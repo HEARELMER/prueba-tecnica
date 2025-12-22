@@ -17,6 +17,7 @@ interface Input {
   distrito: string;
   codigo_celular: string;
   numero_celular: string;
+  correo_electronico: string;
   genero: Genero;
   token_code: string;
 }
@@ -47,6 +48,7 @@ export class RegisterClient implements RegisterClientUseCase {
       distrito: input.distrito,
       codigoCelular: input.codigo_celular,
       numeroCelular: input.numero_celular,
+      correoElectronico: input.correo_electronico,
       genero: input.genero,
     });
 
@@ -70,6 +72,7 @@ export class RegisterClient implements RegisterClientUseCase {
         numeroCelular: data.numeroCelular,
         genero: data.genero,
         createdAt: data.createdAt.toISOString(),
+        correoElectronico: data.correoElectronico,
       });
     }
 

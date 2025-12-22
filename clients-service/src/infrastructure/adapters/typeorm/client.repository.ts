@@ -21,6 +21,7 @@ export class TypeOrmClientRepository implements ClientRepositoryPort {
       distrito: data.distrito,
       codigoCelular: data.codigoCelular,
       numeroCelular: data.numeroCelular,
+      correoElectronico: data.correoElectronico,
       genero: data.genero,
       createdAt: data.createdAt,
     });
@@ -44,6 +45,7 @@ function mapToProps(entity: ClientEntity): ClientProps {
     distrito: entity.distrito,
     codigoCelular: entity.codigoCelular,
     numeroCelular: entity.numeroCelular,
+    correoElectronico: entity.correoElectronico,
     genero: entity.genero,
     createdAt: entity.createdAt,
   };

@@ -38,6 +38,7 @@ export class ApiRoutes {
             distrito: dto.distrito,
             codigo_celular: dto.codigo_celular,
             numero_celular: dto.numero_celular,
+            correo_electronico: dto.correo_electronico,
             genero: dto.genero,
             token_code: dto.token_code,
           });

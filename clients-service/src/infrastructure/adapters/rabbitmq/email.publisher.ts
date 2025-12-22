@@ -20,6 +20,7 @@ export class RabbitMqEmailPublisher implements EmailPublisherPort {
     distrito: string;
     codigoCelular: string;
     numeroCelular: string;
+    correoElectronico: string;
     genero: string;
     createdAt: string;
   }): Promise<void> {

@@ -20,6 +20,7 @@ export interface RegisterClientRequest {
   distrito: string;
   codigo_celular: string;
   numero_celular: string;
+  correo_electronico: string;
   genero: 'M' | 'F' | 'O';
 }
 
@@ -36,6 +37,7 @@ export interface RegisterClientResponse {
   distrito: string;
   codigoCelular: string;
   numeroCelular: string;
+  correoElectronico: string;
   genero: 'M' | 'F' | 'O';
   createdAt: string;
 }

@@ -1,4 +1,14 @@
-<div class="relative min-h-screen overflow-hidden bg-slate-950 text-white">
+<div>
+  @if (registrationSuccess()) {
+    <app-success-screen
+      [message]="'Tu registro ha sido completado exitosamente'"
+      [fullName]="successData().fullName"
+      [documentInfo]="successData().documentInfo"
+      (onContinue)="onSuccessScreenContinue()"
+    />
+  } @else {
+    <!-- Contenido original del formulario -->
+    <div class="relative min-h-screen overflow-hidden bg-slate-950 text-white">
   <div class="pointer-events-none absolute inset-0 opacity-60">
     <div
       class="absolute -left-20 top-10 h-64 w-64 rounded-full bg-emerald-500/25 blur-3xl"
@@ -252,6 +262,29 @@
               </z-select>
             </div>
           </div> 
+          
+          <div class="space-y-2">
+            <z-form-field>
+              <z-form-label zRequired>Correo electrónico</z-form-label>
+              <z-form-control
+                [errorMessage]="
+                  getControl('email').touched &&
+                  getControl('email').invalid
+                    ? 'Ingresa un correo válido'
+                    : ''
+                "
+              >
+                <input
+                  formControlName="email"
+                  autocomplete="email"
+                  type="email"
+                  [class]="inputClasses"
+                  placeholder="tu@correo.com"
+                />
+              </z-form-control>
+            </z-form-field>
+          </div>
+
           <div class="grid gap-3 sm:grid-cols-[1fr_2fr]">
             <z-form-field>
               <z-form-label zRequired>Código</z-form-label>
@@ -369,4 +402,5 @@
       </section>
     </div>
   </div>
+</div>  }
 </div>
