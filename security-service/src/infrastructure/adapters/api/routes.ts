@@ -45,7 +45,7 @@ export class ApiRoutes {
 
     server.route({
       method: "GET",
-      path: "/status",
+      path: "/health",
       handler: (_request: Request, h: ResponseToolkit) => {
         return h.response({ status: "ok" }).code(200);
       },

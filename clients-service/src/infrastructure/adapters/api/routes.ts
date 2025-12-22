@@ -48,6 +48,14 @@ export class ApiRoutes {
         }
       },
     });
+
+    server.route({
+      method: "GET",
+      path: "/health",
+      handler: (request: Request, h: ResponseToolkit) => {
+        return h.response("ok").code(200);
+      },
+    });
   }
 }
 
