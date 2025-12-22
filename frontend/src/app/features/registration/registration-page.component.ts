@@ -1,4 +1,5 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,6 +26,7 @@ import { ZardSelectComponent } from '@/shared/components/select/select.component
 import { ZardSelectItemComponent } from '@/shared/components/select/select-item.component';
 import { ZardBadgeComponent } from '@/shared/components/badge/badge.component';
 import { ZardIconComponent } from '@/shared/components/icon/icon.component';
+import { UbigeoService } from '@/core/ubigeo.service';
 
 interface BonusOption {
   id: 'casino' | 'sports' | 'none';
@@ -40,12 +42,14 @@ type Gender = 'M' | 'F' | 'O';
   standalone: true,
   imports: [
     CommonModule,
+    HttpClientModule,
     ReactiveFormsModule,
     ZardFormModule,
     ZardSelectComponent,
     ZardSelectItemComponent,
     ZardBadgeComponent,
     ZardIconComponent,
+    JsonPipe,
   ],
   templateUrl: './registration-page.component.html',
   styleUrl: './registration-page.component.css',
@@ -55,6 +59,7 @@ export class RegistrationPageComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly securitySdk = inject(SecuritySdkService);
   private readonly clientsSdk = inject(ClientsSdkService);
+  private readonly ubigeo = inject(UbigeoService);
 
   readonly bonusOptions: BonusOption[] = [
     {
@@ -99,15 +104,9 @@ export class RegistrationPageComponent implements OnInit {
 
   readonly days = Array.from({ length: 31 }, (_, index) => index + 1);
   readonly years = this.buildYears();
-  readonly departments = ['Lima', 'Cusco', 'Arequipa', 'Piura', 'Junín'];
-  readonly provinces = ['Lima', 'Urubamba', 'Camaná', 'Paita', 'Huancayo'];
-  readonly districts = [
-    'Miraflores',
-    'San Isidro',
-    'La Molina',
-    'Barranco',
-    'Comas',
-  ];
+  departments: string[] = [];
+  provinces: string[] = [];
+  districts: string[] = [];
   readonly genders: { value: Gender; label: string }[] = [
     { value: 'M', label: 'Masculino' },
     { value: 'F', label: 'Femenino' },
@@ -188,6 +187,8 @@ export class RegistrationPageComponent implements OnInit {
   );
 
   ngOnInit(): void {
+    this.loadUbigeo();
+    this.bindLocationChanges();
     this.fetchToken();
   }
 
@@ -209,6 +210,77 @@ export class RegistrationPageComponent implements OnInit {
     } finally {
       this.loadingToken = false;
     }
+  }
+
+  async bindLocationChanges(): Promise<void> {
+    this.loadingToken = true;
+    this.statusTone = '';
+    try {
+      const token = await firstValueFrom(this.securitySdk.generateToken$());
+      this.form.patchValue({ tokenCode: token.tokenCode });
+    } catch (error) {
+      const message =
+        (error as Error)?.message ?? 'No se pudo obtener el token de seguridad';
+      this.statusTone = 'error';
+      this.statusMessage = message;
+    } finally {
+      this.loadingToken = false;
+    }
+  }
+
+  private loadUbigeo(): void {
+    this.ubigeo
+      .load()
+      .then((data) => {
+        this.departments = data.departments;
+      })
+      .catch(() => {
+        this.departments = [];
+      });
+  }
+
+  // bindLocationChanges(): void {
+  //   this.form.get('department')?.valueChanges.subscribe((department) => {
+  //     this.updateProvinces(department ?? '');
+  //     this.form.patchValue(
+  //       { province: '', district: '' },
+  //       { emitEvent: false }
+  //     );
+  //     this.districts = [];
+  //   });
+
+  //   this.form.get('province')?.valueChanges.subscribe((province) => {
+  //     const department = this.form.get('department')?.value ?? '';
+  //     this.updateDistricts(department, province ?? '');
+  //     this.form.patchValue({ district: '' }, { emitEvent: false });
+  //   });
+  // }
+
+  onDepartmentSelect(value: string | string[]): void {
+    console.log(value);
+    const department = Array.isArray(value) ? value[0] ?? '' : value;
+    this.form.patchValue({ department, province: '', district: '' });
+    this.updateProvinces(department);
+    this.districts = [];
+  }
+
+  onProvinceSelect(value: string | string[]): void {
+    const province = Array.isArray(value) ? value[0] ?? '' : value;
+    const department = this.form.get('department')?.value ?? '';
+    this.form.patchValue({ province, district: '' });
+    this.updateDistricts(department, province);
+  }
+
+  onDistrictSelect(value: string | string[]): void {
+    const district = Array.isArray(value) ? value[0] ?? '' : value;
+    this.form.patchValue({ district });
+  }
+
+  updateProvinces(department: string): void {
+    this.provinces = this.ubigeo.getProvinces(department);
+  }
+  updateDistricts(department: string, province: string): void {
+    this.districts = this.ubigeo.getDistricts(department, province);
   }
 
   async onSubmit(): Promise<void> {
